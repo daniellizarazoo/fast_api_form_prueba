@@ -2,11 +2,18 @@ from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 import uvicorn
-
+from fastapi.middleware.cors import CORSMiddleware
 templates = Jinja2Templates(directory="templates")
 
 app = FastAPI()
-
+# Allow all origins, methods, and headers
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @app.get("/", response_class=HTMLResponse)
 async def main_html(
     request: Request, 
